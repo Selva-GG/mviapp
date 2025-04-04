@@ -10,15 +10,26 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.mviapp.navigation.NavGraph
-import com.example.mviapp.ui.viewmodel.MainViewModel
+import com.example.mviapp.presentation.MainViewModel
+import com.example.mviapp.presentation.NavGraph
 import dagger.hilt.android.AndroidEntryPoint
+
+val LocalMainViewModel = staticCompositionLocalOf<MainViewModel> {
+    error("MainViewModel not provided")
+}
+
+val LocalNavController = staticCompositionLocalOf<NavHostController> {
+    error("NavController not provided")
+}
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -26,7 +37,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-             val viewModel: MainViewModel = hiltViewModel()
+            val viewModel: MainViewModel = hiltViewModel()
             RecipeApp(viewModel)
         }
     }
@@ -36,15 +47,21 @@ class MainActivity : ComponentActivity() {
 fun RecipeApp(viewModel: MainViewModel) {
     val navController = rememberNavController()
 
-    Scaffold(
-        bottomBar = { BottomNavigationBar(navController) }
-    ) { innerPadding ->
-        NavGraph(navController = navController, viewModel = viewModel, modifier = Modifier.padding(innerPadding))
+    CompositionLocalProvider(
+        LocalMainViewModel provides viewModel,
+        LocalNavController provides navController
+    ) {
+        Scaffold(
+            bottomBar = { BottomNavigationBar() }
+        ) { innerPadding ->
+            NavGraph(modifier = Modifier.padding(innerPadding))
+        }
     }
 }
 
 @Composable
-fun BottomNavigationBar(navController: NavController) {
+fun BottomNavigationBar() {
+    val navController = LocalNavController.current
     val items = listOf(
         BottomNavItem("Recipes", "recipe_list"),
         BottomNavItem("Favorites", "favorites"),
