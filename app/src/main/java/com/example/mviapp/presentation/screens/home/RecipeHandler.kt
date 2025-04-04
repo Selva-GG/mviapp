@@ -1,5 +1,6 @@
 package com.example.mviapp.presentation.screens.home
 
+import com.example.mviapp.data.repository.FavoriteRepository
 import com.example.mviapp.data.repository.RecipeRepository
 import com.example.mviapp.presentation.Base
 import com.example.mviapp.presentation.IReducer
@@ -8,7 +9,7 @@ import com.example.mviapp.presentation.state.RecipeState
 import javax.inject.Inject
 
 class RecipeHandler @Inject constructor(
-    private val recipeRepository: RecipeRepository
+    private val recipeRepository: RecipeRepository,
 ) : Base<RecipeState, RecipeIntent>(
     initialState = RecipeState(listOf()),
     reducer = RecipeReducer()

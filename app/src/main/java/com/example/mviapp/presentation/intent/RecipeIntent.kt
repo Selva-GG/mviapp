@@ -11,4 +11,5 @@ sealed class RecipeIntent : MainIntent(), IReducer.Intent {
     data class SelectRecipe(val recipeId: Int) : RecipeIntent()
     data class SearchRecipes(val query: String) : RecipeIntent()
     object RefreshData : RecipeIntent()
+    data class DeleteRecipe(val recipeId: Int) : RecipeIntent()
 }

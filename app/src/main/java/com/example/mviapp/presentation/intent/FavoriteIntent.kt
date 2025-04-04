@@ -5,5 +5,7 @@ import com.example.mviapp.model.Favorite
 
 sealed class FavoriteIntent : MainIntent(), IReducer.Intent {
     object LoadFavorites : FavoriteIntent()
-    data class SaveFavorite(val favorites: List<Favorite>) : FavoriteIntent()
+    data class AddToFavorites(val recipeId: Int) : FavoriteIntent()
+    data class SaveFavorite(val favorite: List<Favorite>) : FavoriteIntent()
+    data class DeleteFavorite(val favoriteId: Int) : FavoriteIntent()
 }

@@ -4,6 +4,7 @@ import com.example.mviapp.model.Recipe
 import javax.inject.Inject
 
 class RecipeRepository @Inject constructor() {
+
     fun getRecipes(): List<Recipe> {
         return listOf(
             Recipe(id = 1, name = "Pasta", description = "Delicious Italian pasta"),

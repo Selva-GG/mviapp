@@ -3,18 +3,21 @@ package com.example.mviapp.data.repository
 import com.example.mviapp.model.User
 
 class UserRepository {
+    private val users = mutableListOf(
+        User(id = 1, name = "John Doe", email = "john.doe@example.com"),
+        User(id = 2, name = "Jane Smith", email = "jane.smith@example.com")
+    )
+
     fun getUsers(): List<User> {
-        return listOf(
-            User(id = 1, name = "John Doe", email = "john.doe@example.com"),
-            User(id = 2, name = "Jane Smith", email = "jane.smith@example.com")
-        )
+        return users
     }
 
     fun getUserById(id: Int): User? {
-        return getUsers().find { it.id == id }
+        return users.find { it.id == id }
     }
 
     fun saveUser(user: User) {
-        // Simulate saving user
+        users.removeIf { it.id == user.id }
+        users.add(user)
     }
 }

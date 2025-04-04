@@ -13,12 +13,15 @@ import androidx.compose.runtime.LaunchedEffect
 import com.example.mviapp.presentation.intent.RecipeIntent
 import com.example.mviapp.LocalMainViewModel
 import com.example.mviapp.LocalNavController
+import androidx.compose.material3.Button
+import com.example.mviapp.presentation.intent.FavoriteIntent
 
 @Composable
 fun RecipeListScreen() {
     val navController = LocalNavController.current
     val viewModel = LocalMainViewModel.current
     val state = viewModel.recipeHandler.state.collectAsState().value
+    val favorites = viewModel.favoriteHandler.state.collectAsState().value.favorites
 
     LaunchedEffect(Unit) {
         viewModel.processIntent(RecipeIntent.LoadRecipes)
@@ -27,12 +30,24 @@ fun RecipeListScreen() {
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         Text(text = "Recipe List")
         state.recipes.forEach { recipe ->
-            Text(
-                text = recipe.name,
-                modifier = Modifier.clickable {
-                    navController.navigate("recipeDetail/${recipe.id}")
+            val isFavorite = favorites.any { it.recipeId == recipe.id }
+            Row(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
+                Text(
+                    text = recipe.name,
+                    modifier = Modifier.weight(1f).clickable {
+                        navController.navigate("recipeDetail/${recipe.id}")
+                    }
+                )
+                Button(onClick = {
+                    if (isFavorite) {
+                        viewModel.processIntent(FavoriteIntent.DeleteFavorite(recipe.id))
+                    } else {
+                        viewModel.processIntent(FavoriteIntent.AddToFavorites(recipe.id))
+                    }
+                }) {
+                    Text(text = if (isFavorite) "Unfavorite" else "Favorite")
                 }
-            )
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.mviapp.presentation.screens.favorite
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -14,6 +15,7 @@ import androidx.compose.runtime.LaunchedEffect
 import com.example.mviapp.presentation.intent.FavoriteIntent
 import com.example.mviapp.LocalMainViewModel
 import com.example.mviapp.LocalNavController
+import androidx.compose.material3.Button
 
 @Composable
 fun FavoritesScreen() {
@@ -28,12 +30,19 @@ fun FavoritesScreen() {
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         Text(text = "Favorites")
         state.favorites.forEach { favorite ->
-            Text(
-                text = favorite.name,
-                modifier = Modifier.clickable {
-                    navController.navigate("recipeDetail/${favorite.recipeId}")
+            Row(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
+                Text(
+                    text = favorite.name,
+                    modifier = Modifier.weight(1f).clickable {
+                        navController.navigate("recipeDetail/${favorite.recipeId}")
+                    }
+                )
+                Button(onClick = {
+                    viewModel.processIntent(FavoriteIntent.DeleteFavorite(favorite.recipeId))
+                }) {
+                    Text(text = "Remove")
                 }
-            )
+            }
         }
     }
 }
