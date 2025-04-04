@@ -10,43 +10,36 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.mviapp.ui.screens.*
+import com.example.mviapp.navigation.NavGraph
+import com.example.mviapp.ui.viewmodel.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            RecipeApp()
+             val viewModel: MainViewModel = hiltViewModel()
+            RecipeApp(viewModel)
         }
     }
 }
 
 @Composable
-fun RecipeApp() {
+fun RecipeApp(viewModel: MainViewModel) {
     val navController = rememberNavController()
 
     Scaffold(
         bottomBar = { BottomNavigationBar(navController) }
     ) { innerPadding ->
-        NavHost(
-            navController = navController,
-            startDestination = "recipe_list",
-            modifier = Modifier.padding(innerPadding)
-        ) {
-            composable("recipe_list") { RecipeListScreen(navController) }
-            composable("recipe_detail") { RecipeDetailScreen(navController) }
-            composable("favorites") { FavoritesScreen(navController) }
-            composable("settings") { SettingsScreen(navController) }
-        }
+        NavGraph(navController = navController, viewModel = viewModel, modifier = Modifier.padding(innerPadding))
     }
 }
 
