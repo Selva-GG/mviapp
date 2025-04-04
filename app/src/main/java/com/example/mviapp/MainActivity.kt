@@ -11,12 +11,14 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.mviapp.presentation.MainViewModel
 import com.example.mviapp.presentation.NavGraph
@@ -26,7 +28,7 @@ val LocalMainViewModel = staticCompositionLocalOf<MainViewModel> {
     error("MainViewModel not provided")
 }
 
-val LocalNavController = staticCompositionLocalOf<NavController> {
+val LocalNavController = compositionLocalOf<NavHostController> {
     error("NavController not provided")
 }
 
