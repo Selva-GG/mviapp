@@ -16,6 +16,9 @@ class SettingsHandler @Inject constructor(
     initialState = SettingsState(),
     reducer = SettingsReducer()
 ) {
+    override suspend fun initialDataLoad() {
+        super.initialDataLoad()
+    }
     override fun handleIntent(intent: SettingsIntent) {
         super.handleIntent(intent) // Call the base implementation first
         when (intent) {
@@ -39,3 +42,12 @@ class SettingsReducer : IReducer<SettingsState, SettingsIntent> {
         }
     }
 }
+priorrt --- plugin
+        Architecture , design system confirm
+        components design templates
+        navigtaion , api , database , notification
+        Firebase notification
+        account migration
+        responsive design
+
+

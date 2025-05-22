@@ -16,13 +16,14 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.mviapp.presentation.MainViewModel
 import com.example.mviapp.presentation.NavGraph
-import dagger.hilt.android.AndroidEntryPoint
+
+
+
 
 val LocalMainViewModel = staticCompositionLocalOf<MainViewModel> {
     error("MainViewModel not provided")

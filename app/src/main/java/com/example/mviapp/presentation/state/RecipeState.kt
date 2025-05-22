@@ -7,3 +7,4 @@ data class RecipeState(
     val recipes: List<Recipe>,
     val ingredients: Map<Int, List<String>> = emptyMap() // Added ingredients detail
 ) : IReducer.State
+

@@ -8,7 +8,11 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.mviapp.LocalMainViewModel
+import com.example.mviapp.LocalNavController
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -39,6 +43,10 @@ fun MVIAPPTheme(
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
+    CompositionLocalProvider(
+        LocalMainViewModel provides viewModel,
+        LocalNavController provides navController
+    ) {
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
